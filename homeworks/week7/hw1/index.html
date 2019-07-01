@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    html, body {
+      height: 100%;
+    }
+    .bg { 
+      background-color: rgb(236, 232, 220);
+      height: 100%;
+    }
+    .cover {
+      background-color: rgb(255, 190, 10);
+    }
+    .start_btn,.restart_btn{
+      border: solid 2px;
+      display: inline-block;
+      width: 120px;
+      height: 50px;
+      letter-spacing: 1.4px;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 50px;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      transition: all 0.3s;
+    }
+    .restart_btn {
+      position: absolute;
+    }
+    .start_btn:hover, .restart_btn:hover {
+      border: none;
+      background-color: #555;
+      color: white;
+      transform: translateX(-50%) translateY(-50%) scale(1.2);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0px 10px;
+    }
+    .display_n {
+      display: none;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="bg uncover">
+    <div class="start_btn">START</div>
+    <!-- <div class="restart_btn">TRY AGAIN</div> -->
+  </div>
+  <div id="showbox"></div>
+
+  <script>
+    let timer_1 = '';
+    let t1_milliseconds = '';
+    let t1_getSeconds = '';
+    let timer_2 = '';
+    let t2_milliseconds = '';
+    let t2_getSeconds = '';
+    let answer_milliseconds = '';
+    let answer_getSeconds = '';
+    let success = true;
+
+    let restart_btn = document.createElement('a');
+    restart_btn.innerText = 'TRY AGAIN';
+    restart_btn.className = 'restart_btn';
+    restart_btn.setAttribute('href', 'javascript:window.location.reload()');
+
+    function change() {
+      document.querySelector('div.bg').classList.remove('uncover');
+      if(success) {
+        add_cover();
+      }
+    }
+    function add_cover() {
+      document.querySelector('div.bg').classList.add('cover');
+      timer_1 = new Date();
+      t1_milliseconds = timer_1.getMilliseconds();
+      t1_getSeconds = timer_1.getSeconds();
+    }
+    
+    document.querySelector('div.bg').addEventListener('click', function(e) {
+      console.log(e.target.classList.contains('start_btn'))
+      if(e.target.classList.contains('start_btn')) {
+        document.querySelector('div.start_btn').classList.add('display_n')
+        let time = 0
+        function make_time() {
+          time = Math.random()*10
+          if(time >= 3) {
+            make_time()
+          }
+        }
+        make_time()
+        setTimeout('change()',time * 1000)
+      }
+    })
+
+    document.querySelector('div.bg').addEventListener('click', function(e) {
+      if(e.target.classList.contains('cover') && (answer_milliseconds === '')) {
+        timer_2 = new Date();
+        t2_milliseconds = timer_2.getMilliseconds();
+        t2_getSeconds = timer_2.getSeconds();
+        answer_getSeconds = t2_getSeconds - t1_getSeconds;
+        answer_milliseconds = t2_milliseconds - t1_milliseconds;
+        if(answer_milliseconds < 0) {
+          answer_getSeconds = answer_getSeconds - 1;
+          answer_milliseconds = answer_milliseconds + 1000;
+        }
+        alert(`反應時間：${answer_getSeconds}.${answer_milliseconds} 秒`);
+        document.querySelector('.bg').appendChild(restart_btn);
+        console.log(answer_getSeconds,answer_milliseconds);
+      }else if(e.target.classList.contains('uncover')) {
+          alert('失敗！');
+          success = false;
+          document.querySelector('.bg').appendChild(restart_btn);
+      }
+    })
+  </script>
+  
+</body>
+</html>

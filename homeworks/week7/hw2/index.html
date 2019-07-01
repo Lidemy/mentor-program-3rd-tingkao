@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .bg {
+      background-color: rgb(243, 196, 247);
+      height: 300px;
+    }
+    form {
+      background-color: #fff;
+      display: block;
+      margin: auto;
+      padding: 35px;
+      width: 600px;
+      /* display: inline-block; */
+      box-shadow: 0px 0px 5px #aaa;
+      margin-top: -150px;
+      margin-bottom: 40px;
+    }
+    .intro p {
+      font-size: 14px;
+      margin: 5px;
+    }
+    .intro .worning {
+      color: red;
+      margin-top: 15px;
+    }
+    .required::after {
+      content: "*";
+      color: red;
+      margin-left: 6px;
+    }
+    section {
+      padding: 15px 15px;
+      margin: 5px 0;
+    }
+    section p {
+      font-size: 14px;
+    }
+    section input.blank {
+      margin-top: 20px;
+      height: 30px;
+      width: 200px;
+      padding: 0px 10px;
+    }
+    .register {
+      display: inline-block;
+      margin: 10px 0;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    input.btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ddd;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    footer {
+      font-size: 12px;
+      color: #aaa;
+    }
+    form~footer {
+      text-align: center;
+    }
+    p.google {
+      font-size: 20px;
+      margin: 25px;
+    }
+    .bgc_worning {
+      background-color: rgb(255, 189, 189);
+    }
+    .newDiv {
+      font-size: 12px;
+      margin-top: 5px;
+      color: brown;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="bg">
+    </div>
+    <form action="">
+      <div class="intro">
+        <h1>程式導師實驗計畫第三期報名表單</h1>
+        <p>詳情請參考：<a href="https://medium.com/hulis-blog/mentor-program-3rd-47a2e85e33b3">https://medium.com/hulis-blog/mentor-program-3rd-47a2e85e33b3</a></p>
+        <p>填完之後請務必按照文章內的說明再寄信給我，才算報名成功喔</p>
+        <p class="worning">＊必填</p>
+      </div>
+
+      <section>
+        <h2 class="required">電子郵件地址</h2>
+        <input class="blank" type="text" placeholder="你的電子郵件">
+      </section>
+      <section>
+        <h2 class="required">暱稱</h2>
+        <p>該如何稱呼你</p>
+        <input class="blank" type="text" placeholder="您的回答">
+      </section>
+      <section>
+        <h2 class="required">報名類型</h2>
+        <label class="register" ><input type="radio" name="item">從零到一基礎班（兩個月後開始收保證金 5000，淘汰不退還，結業後兩個月內找到工作付一個月半薪水，沒工作不用付）</label>
+        <label class="register" ><input type="radio" name="item">在職工程師加強班（兩個月後開始收保證金 5000，三個月時收學費 35000 元台幣，被淘汰不退還）</label>
+      </section>
+      <section>
+        <h2 class="required">現在的職業</h2>
+        <p>範例：學生、前端工程師、待業中、業務</p>
+        <input class="blank" type="text" placeholder="您的回答">
+      </section>
+      <section>
+        <h2 class="required">怎麼知道這個計畫的？</h2>
+        <input class="blank" type="text" placeholder="您的回答">
+      </section>
+      <section>
+        <h2 class="required">現在的職業</h2>
+        <p>範例：無、高中時候學過C++、學過一點網頁前端、目前在資策會上課...</p>
+        <input class="blank" type="text" placeholder="您的回答">
+      </section>
+      <section>
+        <h2>其他</h2>
+        <p>任何你想說的</p>
+        <input class="blank" type="text" placeholder="您的回答">
+      </section>
+      <input class="btn" type="submit" value="提交">
+      <footer>
+        <p>請勿利用 Google 表單送出密碼。</p>
+      </footer>
+    </form>
+    <footer>
+      <p>Google 並未認可或建立這項內容。 <a href="##">檢舉濫用情形</a> - <a href="##">服務條款</a></p>
+      <p class="google">Google 表單</p>
+    </footer>
+  </div>
+
+  <script>
+    document.querySelector('input[type="submit"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      let blank_array = document.querySelectorAll('.required~input');
+      let radio_array = document.querySelectorAll('input[type="radio"]');
+      let submit = true;
+      let newDiv = '';
+      function create_div() {
+        newDiv = document.createElement('div');
+        newDiv.innerText = '此為必填問題';
+        newDiv.classList.add('newDiv');
+      }
+      for(let i = 0; i < blank_array.length ; i += 1) {
+        if(blank_array[i].value === ''){
+          create_div();
+          blank_array[i].parentNode.appendChild(newDiv);
+          blank_array[i].parentNode.classList.add('bgc_worning');
+          e.preventDefault();
+          submit = false;
+        }
+      }
+      let radio_required = false
+      for(let i = 0; i < radio_array.length ; i += 1) {
+        if(radio_array[i].checked === true) {
+          radio_required = true;
+          break;
+        }
+      }
+      if(radio_required === false) {
+        create_div();
+        radio_array[0].parentNode.parentNode.appendChild(newDiv);
+        radio_array[0].parentNode.parentNode.classList.add('bgc_worning');
+        e.preventDefault();
+        submit = false;
+      }
+      if(submit === true) {
+        alert('表單提交成功');
+        for(let i = 0; i < blank_array.length ; i += 1) {
+          console.log(`${blank_array[i].parentNode.querySelector('h2').innerText}: ${blank_array[i].value}`);
+        }
+        for(let i = 0; i < radio_array.length ; i += 1) {
+          if(radio_array[i].checked === true) {
+            console.log(`${radio_array[i].parentNode.parentNode.querySelector('h2').innerText}: ${radio_array[i].parentNode.innerText}`);
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>

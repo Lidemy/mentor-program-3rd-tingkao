@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    input {
+      display: block;
+      border: 2px solid;
+      margin: 5px;
+      width: 100%;
+      height: 60px;
+      box-sizing: border-box;
+      text-align: right;
+      font-size: 30px;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      width: 280px;
+      border: 2px solid;
+    }
+    .btn {
+      width: 60px;
+      height: 40px;
+      border: 2px solid;
+      margin: 5px;
+      box-sizing: border-box;
+      text-align: center;
+      line-height: 40px;
+    }
+    .btn_equal {
+      width: 130px;
+    }
+    .btn_block {
+      width: 140px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main>
+      <input type="text" value="0">
+      <div class="btn btn_ac">AC</div>
+      <div class="btn_block"></div>
+      <div class="btn">asd</div>
+
+      <div class="btn btn_num">7</div>
+      <div class="btn btn_num">8</div>
+      <div class="btn btn_num">9</div>
+      <div class="btn btn_count">X</div>
+
+      <div class="btn btn_num">4</div>
+      <div class="btn btn_num">5</div>
+      <div class="btn btn_num">6</div>
+      <div class="btn btn_count">-</div>
+
+      <div class="btn btn_num">1</div>
+      <div class="btn btn_num">2</div>
+      <div class="btn btn_num">3</div>
+      <div class="btn btn_count">+</div>
+
+      <div class="btn btn_num">0</div>
+      <div class="btn">.</div>
+      <div class="btn btn_equal">=</div>
+    </main>
+  </div>
+
+  <script>
+    let btn = document.querySelectorAll('.btn')
+    let count_str = ''
+    let temp = ''
+    let counter = ''
+    let answer = 0
+    for(let i = 0; i < btn.length; i += 1) {
+      btn[i].addEventListener('click', function(e) {
+        if(btn[i].classList.contains('btn_num')){
+          count_str = count_str + btn[i].innerText
+          document.querySelector('input[type="text"]').value = count_str
+        }
+        if(btn[i].classList.contains('btn_count')) {
+          counter = btn[i].innerText
+          temp = count_str
+          count_str = ''
+          document.querySelector('input[type="text"]').value = count_str
+        }
+        if(btn[i].classList.contains('btn_equal')) {
+          if(counter === "+") {
+            answer = Number(temp) + Number(count_str)
+            document.querySelector('input[type="text"]').value = answer
+          }else if(counter === "-") {
+            answer = Number(temp) - Number(count_str)
+            document.querySelector('input[type="text"]').value = answer
+          }
+        }
+        if(btn[i].classList.contains('btn_ac')) {
+          count_str = ''
+          temp = ''
+          counter = ''
+          answer = 0
+          document.querySelector('input[type="text"]').value = answer
+        }
+      })
+    }
+  </script>
+</body>
+</html>
